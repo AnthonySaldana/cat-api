@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
+import { connect } from 'react-redux';
+import { fetchBreeds } from '../Actions/CatActions';
+
+const mapStateToProps = state => ({
+  breeds: state.cats.breeds
+});
+
+const mapDispatchToProps = dispatch => ({
+  getBreeds: (params) => dispatch(fetchBreeds(params)),
+});
 
 class Dashboard extends Component {
+  handleGetBreeds = () => {
+    const { getBreeds } = this.props;
+    const params = {
+      attach_breeds: 0,
+      page: 1,
+      limit: 20
+    };
+
+    getBreeds(params);
+  }
+
   render() {
+    const { breeds } = this.props;
+    console.log("breeds");
+    console.log(breeds);
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <p onClick={this.handleGetBreeds}>Get Breeds</p>
+        { /*breeds.length > 0 ? "Breeds Available" : "Breeds Unavailable" */ }
       </div>
     );
   }
 }
 
-export default Dashboard;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

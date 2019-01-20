@@ -4,25 +4,30 @@ import {
 } from '../Actions/Types';
   
 const INITIAL_STATE = {
+    breeds: {}
 };
   
 export default function (state = INITIAL_STATE, action) {
 switch (action.type) {
     case FETCH_BREED_SUCCESS:
     return {
-        ...state
+        ...state,
+        breeds: action.payload
     };
     case FETCH_BREED_FAILURE:
     return {
-        ...state
+        ...state,
+        error: "API Unavailable Try Again Later"
     };
     case FETCH_CATEGORIES_SUCCESS:
     return {
-        ...state
+        ...state,
+        categories: action.payload
     };
     case SET_API_KEY:
     return {
-        ...state
+        ...state,
+        apiKey: action.key
     }
     default: return state;
 }

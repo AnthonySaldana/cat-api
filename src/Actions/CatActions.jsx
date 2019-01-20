@@ -1,36 +1,28 @@
 import { RSAA } from 'redux-api-middleware';
-import fetch from 'cross-fetch'
 import { appendParams } from './helpers';
 import {
     FETCH_BREED, FETCH_BREED_SUCCESS, FETCH_BREED_FAILURE,
     FETCH_CATEGORIES, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILURE, 
     SET_API_KEY, END_SESSION
-} from './types';
+} from './Types';
 
-export const fetchBreeds = (query) => ({
+const baseurl = "https://api.thecatapi.com/v1/";
+
+export const fetchBreeds = (params) => ({
   [RSAA]: {
     types: [FETCH_BREED, FETCH_BREED_SUCCESS, FETCH_BREED_FAILURE],
-    endpoint: appendParams('/api/breeds', query),
+    endpoint: appendParams(baseurl + 'breeds', params),
     method: 'GET',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     credentials: 'same-origin'
   }
 });
 
-function fetchPosts(subreddit) {
-    return dispatch => {
-      dispatch(requestPosts(subreddit))
-      return fetch(`https://www.reddit.com/r/${subreddit}.json`)
-        .then(response => response.json())
-        .then(json => dispatch(receivePosts(subreddit, json)))
-    }
-  }
-
-export const fetchCategories = (query) => {
+export const fetchCategories = (params) => {
   return {
     [RSAA]: {
       types: [FETCH_CATEGORIES, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILURE],
-      endpoint: appendParams('https://thecatapi.com/categories', query),
+      endpoint: appendParams(baseurl + 'categories', params),
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       credentials: 'same-origin'
