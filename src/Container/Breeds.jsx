@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchBreeds, searchImages } from '../Actions/CatActions';
-import ImagesTable from '../Components/ImagesTable';
+import BreedsTable from '../Components/BreedsTable';
 
 const mapStateToProps = state => ({
   breeds: state.cats.breeds
@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => ({
   getBreedImage: (params) => dispatch(searchImages(params)),
 });
 
-class Dashboard extends Component {
+class Breeds extends Component {
   handleGetBreeds = () => {
     const { getBreeds } = this.props;
     const params = {
@@ -32,7 +32,7 @@ class Dashboard extends Component {
     return (
       <div>
         <p onClick={this.handleGetBreeds}>Get Breeds</p>
-        <ImagesTable images={[]} />
+        <BreedsTable breeds={breeds} />
         { /*breeds.length > 0 ? "Breeds Available" : "Breeds Unavailable" */ }
       </div>
     );
@@ -42,4 +42,4 @@ class Dashboard extends Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(Breeds);

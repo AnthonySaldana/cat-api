@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 import rootReducer from './Reducers'
 import configureStore from './Store/configureStore';
+import Breeds from './Container/Breeds';
 import Dashboard from './Container/Dashboard';
 import Settings from './Container/Settings';
 import Header from './Components/Header';
@@ -20,7 +21,9 @@ class App extends Component {
           <div className="App">
             <Header />
             <Switch>
+              <Route exact path="/breeds" component={Breeds} />
               <Route exact path="/settings" component={Settings} />
+              <Route exact path="/Dashboard" component={Dashboard} />
               <Route exact path="/" component={Dashboard} />
             </Switch>
           </div>

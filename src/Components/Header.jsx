@@ -2,10 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
+import Divider from '@material-ui/core/Divider';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,18 +22,68 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Link } from "react-router-dom";
 
-const styles = {
+const drawerWidth = 240;
+
+const styles = theme => ({
   root: {
-    flexGrow: 1,
+    display: 'flex',
+    flexGrow: 1
   },
-  grow: {
-    flexGrow: 1,
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginLeft: -12,
+    marginLeft: 12,
     marginRight: 20,
   },
-};
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+  toolBar: {
+    justifyContent: 'space-between'
+  }
+});
 
 class Header extends React.Component {
   state = {
@@ -45,24 +103,29 @@ class Header extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
-    const open = Boolean(anchorEl);
+    const topOpen = Boolean(anchorEl);
+    const { open } = this.state;
 
     return (
       <div className={classes.root}>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
-            }
-            label={auth ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <Toolbar className={classes.toolBar}>
+            <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+            onClick={this.handleDrawerOpen}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
@@ -71,7 +134,7 @@ class Header extends React.Component {
             {auth && (
               <div>
                 <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
+                  aria-owns={topOpen ? 'menu-appbar' : undefined}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
                   color="inherit"
@@ -89,7 +152,7 @@ class Header extends React.Component {
                     vertical: 'top',
                     horizontal: 'right',
                   }}
-                  open={open}
+                  open={topOpen}
                   onClose={this.handleClose}
                 >
                   <MenuItem> <Link to="/settings">Settings</Link></MenuItem>
@@ -98,6 +161,44 @@ class Header extends React.Component {
             )}
           </Toolbar>
         </AppBar>
+        <Drawer
+          className={classes.drawer}
+          anchor="left"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          onClose={this.handleDrawerClose}
+        >
+          <div className={classes.drawerHeader}>
+          <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
+                }
+                label={auth ? 'Logout' : 'Login'}
+              />
+            </FormGroup>
+            <IconButton onClick={this.handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+          <Link to="/dashboard">
+            <ListItem button>
+                <ListItemIcon><InboxIcon /></ListItemIcon>
+                <ListItemText primary={"Dashboard"} />
+            </ListItem>
+          </Link >
+          <Link to="/breeds">
+            <ListItem button>
+                <ListItemIcon><InboxIcon /></ListItemIcon>
+                <ListItemText primary={"Breeds"} />
+            </ListItem>
+          </Link >
+          </List>
+        </Drawer>
       </div>
     );
   }
