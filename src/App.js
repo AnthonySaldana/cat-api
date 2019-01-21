@@ -8,7 +8,6 @@ import Favorites from './Container/Favorites';
 import Images from './Container/Images';
 import Login from './Container/Login';
 import Logout from './Container/Logout';
-import Settings from './Container/Settings';
 import Header from './Components/Header';
 import './App.css';
 import PrivateRoute from './PrivateRoute';
