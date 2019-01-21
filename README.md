@@ -1,5 +1,5 @@
 Once you've cloned this repo, navigate to it inside a terminal and run
-npm install
+### `npm install`
 
 Once done, you can spin up a local server by running
 
