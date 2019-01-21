@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,10 +18,13 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  img: {
+    maxWidth: 200
+  }
 });
 
 function ImagesTable(props) {
-  const { classes, images } = props;
+  const { classes, images, favorited } = props;
 
   return (
     <Paper className={classes.root}>
@@ -29,16 +33,22 @@ function ImagesTable(props) {
           <TableRow>
             <TableCell>Breed</TableCell>
             <TableCell align="right">Image</TableCell>
+            <TableCell align="right">+</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {images.map(row => (
             <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.name}
+              <TableCell align="right">{row.breed ? row.breed[0].name : "Info not available"}</TableCell>
+              <TableCell align="right"><img src={row.url} className={classes.img} alt="Probably a cat" /></TableCell>
+              <TableCell align="right">
+                <div className={classes.buttonWrapper}>
+                    <Button variant="contained" color="primary" onClick={() => favorited(row.id)}>
+                        Favorite
+                    </Button>
+                </div>
               </TableCell>
-              <TableCell align="right">{row.brand ? row.brand.name : "???"}</TableCell>
-              <TableCell align="right">{row.url}</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           ))}
         </TableBody>

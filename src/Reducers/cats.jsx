@@ -4,12 +4,17 @@ import {
     CLEAR_BREEDS,
     SEARCH_IMAGES_SUCCESS,
     SEARCH_IMAGES_FAILURE,
-    LOGIN
+    LOGIN,
+    GET_FAVORITES_FAILURE,
+    GET_FAVORITES_SUCCESS
 } from '../Actions/Types';
   
 const INITIAL_STATE = {
     breeds: [],
-    images: []
+    images: [],
+    favorites: [],
+    user: {},
+    authenticated: false
 };
   
 export default function (state = INITIAL_STATE, action) {
@@ -43,6 +48,16 @@ switch (action.type) {
     return {
         ...state,
         categories: action.payload
+    };
+    case GET_FAVORITES_SUCCESS:
+    return {
+        ...state,
+        favorites: action.payload
+    };
+    case GET_FAVORITES_FAILURE:
+    return {
+        ...state,
+        favorites: "API Unavailable: Try again later"
     };
     case SET_API_KEY:
     return {

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import { searchImages } from '../Actions/CatActions';
+import { searchImages, favorite } from '../Actions/CatActions';
 import ImagesTable from '../Components/ImagesTable';
 
 const mapStateToProps = state => ({
-  images: state.cats.images
+  images: state.cats.images,
+  user: state.cats.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  getImages: (params) => dispatch(searchImages(params))
+  getImages: (params) => dispatch(searchImages(params)),
+  favorite: (params) => dispatch(favorite(params))
 });
 
 class Breeds extends Component {
@@ -24,12 +26,15 @@ class Breeds extends Component {
     getImages(params);
   }
 
-  handleClearImages = () => {
-    const { clearImages } = this.props;
-
-    clearImages();
+  handleFavorite = (id) => {
+    let { user, favorite } = this.props;
+    const params = {
+      "image_id": id,
+      "sub_id": user ? user.username : ''
+    };
+    favorite(params);
   }
-
+  
   render() {
     const { images } = this.props;
 
@@ -39,11 +44,7 @@ class Breeds extends Component {
         <Button variant="contained" color="primary" onClick={this.handleGetImages}>
             Get Cats
         </Button>
-        <Button variant="contained" color="secondary" onClick={this.handleClearImages}>
-            Shoo Cats
-        </Button>
-        <ImagesTable images={images} />
-        { /*breeds.length > 0 ? "Breeds Available" : "Breeds Unavailable" */ }
+        <ImagesTable images={images} favorited={this.handleFavorite} />
       </div>
     );
   }

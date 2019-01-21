@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
-import rootReducer from './Reducers'
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import configureStore from './Store/configureStore';
 import Breeds from './Container/Breeds';
 import Dashboard from './Container/Dashboard';

@@ -4,7 +4,8 @@ import {
     FETCH_BREED, FETCH_BREED_SUCCESS, FETCH_BREED_FAILURE,
     FETCH_CATEGORIES, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILURE, 
     SET_API_KEY, END_SESSION, SEARCH_IMAGES, SEARCH_IMAGES_SUCCESS, SEARCH_IMAGES_FAILURE,
-    CLEAR_BREEDS, VOTE_FAILURE, VOTE_SUCCESS, VOTE, LOGIN
+    CLEAR_BREEDS, VOTE_FAILURE, VOTE_SUCCESS, VOTE, LOGIN, GET_FAVORITES_SUCCESS,
+    GET_FAVORITES_FAILURE, GET_FAVORITES
 } from './Types';
 
 const baseurl = "https://api.thecatapi.com/v1/";
@@ -14,7 +15,7 @@ export const fetchBreeds = (params) => ({
     types: [FETCH_BREED, FETCH_BREED_SUCCESS, FETCH_BREED_FAILURE],
     endpoint: appendParams(baseurl + 'breeds', params),
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-api-key': '8cf2b5f1-026e-4396-8672-a151fb2ac41a' },
     credentials: 'same-origin'
   }
 });
@@ -31,7 +32,7 @@ export const searchImages = (params) => ({
     types: [SEARCH_IMAGES, SEARCH_IMAGES_SUCCESS, SEARCH_IMAGES_FAILURE],
     endpoint: appendParams(baseurl + 'images/search', params),
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-api-key': '8cf2b5f1-026e-4396-8672-a151fb2ac41a' },
     credentials: 'same-origin'
   }
 });
@@ -42,7 +43,19 @@ export const fetchCategories = (params) => {
       types: [FETCH_CATEGORIES, FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILURE],
       endpoint: appendParams(baseurl + 'categories', params),
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-api-key': '8cf2b5f1-026e-4396-8672-a151fb2ac41a' },
+      credentials: 'same-origin'
+    }
+  };
+};
+
+export const getFavorites = (params) => {
+  return {
+    [RSAA]: {
+      types: [GET_FAVORITES, GET_FAVORITES_SUCCESS, GET_FAVORITES_FAILURE],
+      endpoint: appendParams(baseurl + 'favourites', params),
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-api-key': '8cf2b5f1-026e-4396-8672-a151fb2ac41a' },
       credentials: 'same-origin'
     }
   };
@@ -55,7 +68,21 @@ export const vote = (params) => {
       types: [VOTE, VOTE_SUCCESS, VOTE_FAILURE],
       endpoint: baseurl + 'votes',
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-api-key': '8cf2b5f1-026e-4396-8672-a151fb2ac41a' },
+      credentials: 'same-origin',
+      body: JSON.stringify(params)
+    }
+  };
+};
+
+//https://api.thecatapi.com/v1/favourites
+export const favorite = (params) => {
+  return {
+    [RSAA]: {
+      types: [VOTE, VOTE_SUCCESS, VOTE_FAILURE],
+      endpoint: baseurl + 'favourites',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-api-key': '8cf2b5f1-026e-4396-8672-a151fb2ac41a' },
       credentials: 'same-origin',
       body: JSON.stringify(params)
     }

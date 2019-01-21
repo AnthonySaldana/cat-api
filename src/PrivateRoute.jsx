@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 
 export class PrivateRoute extends React.Component {
   render() {
-    const { authenticated, cats, state } = this.props;
+    const { authenticated } = this.props;
     const Component = this.props.component;
     return (
       <Route

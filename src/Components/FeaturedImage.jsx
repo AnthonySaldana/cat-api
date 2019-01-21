@@ -33,10 +33,10 @@ function ImagesTable(props) {
   const { classes, image, favorited, disliked } = props;
   return (
         <div className={classes.featWrapper}>
-            <img className={classes.featImg} src={image.url} />
+            <img className={classes.featImg} src={image.url} alt="Probably a cat" />
             <div className={classes.buttonWrapper}>
                 <Button variant="contained" color="primary" onClick={favorited}>
-                    Purrrfect
+                    Favorite
                 </Button>
                 <Button variant="contained" color="secondary" onClick={disliked}>
                     Shoo Kitty

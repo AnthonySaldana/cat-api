@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { searchImages, vote } from '../Actions/CatActions';
+import { searchImages, vote, favorite } from '../Actions/CatActions';
 import FeaturedImage from '../Components/FeaturedImage';
 
 const mapStateToProps = state => ({
@@ -11,14 +11,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getImages: (params) => dispatch(searchImages(params)),
   vote: (params) => dispatch(vote(params)),
+  favorite: (params) => dispatch(favorite(params)),
 });
 
 class Dashboard extends Component {
   componentDidMount(){
     const { getImages } = this.props;
-    const params = {
-      limit: 1
-    };
     getImages();
   }
 
@@ -40,25 +38,28 @@ class Dashboard extends Component {
   }
 
   handleFavorited = () => {
-    const { vote, user, images } = this.props;
+    const { user, images, favorite, getImages } = this.props;
     const featuredImage = images.length > 0 ? images[0] : {};
-    const params = {
+
+    const favParams = {
       "image_id": featuredImage ? featuredImage.id : 'asf2',
-      "sub_id": ( user ? user.username : '' ) + "-testing",
-      "value": 1
+      "sub_id": user ? user.username : ''
     };
-    vote(params);
+    
+    favorite(favParams)
+    getImages();
   }
 
   handleDisliked = () => {
-    const { vote, user, images } = this.props;
+    const { vote, user, images, getImages } = this.props;
     const featuredImage = images.length > 0 ? images[0] : {};
     const params = {
       "image_id": featuredImage ? featuredImage.id : 'asf2',
-      "sub_id": ( user ? user.username : '' ) + "-testing",
+      "sub_id": user ? user.username : '',
       "value": 0
     };
-    vote(params)
+    vote(params);
+    getImages();
   }
 
   render() {
@@ -68,7 +69,7 @@ class Dashboard extends Component {
     return (
       <div>
         <h1>Cats Rule</h1>
-        <FeaturedImage image={featuredImage} favorited={this.handleFavorited} disliked={this.handleDisliked} />
+        <FeaturedImage image={featuredImage} favorited={this.handleFavorited} disliked={this.handleDisliked}/>
       </div>
     );
   }

@@ -17,28 +17,28 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  img: {
+    maxWidth: 400
+  }
 });
 
 function ImagesTable(props) {
-  const { classes, images } = props;
+  const { classes, favorites } = props;
 
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Breed</TableCell>
-            <TableCell align="right">Image</TableCell>
+            <TableCell>Favorite Images</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {images.map(row => (
+          {favorites.map(row => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.name}
+                <img src={row.image.url} className={classes.img} alt="Probably a cat" />
               </TableCell>
-              <TableCell align="right">{row.brand ? row.brand.name : "???"}</TableCell>
-              <TableCell align="right">{row.url}</TableCell>
             </TableRow>
           ))}
         </TableBody>
