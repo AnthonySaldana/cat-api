@@ -158,7 +158,6 @@ class Header extends React.Component {
                   open={topOpen}
                   onClose={this.handleClose}
                 >
-                  <MenuItem> <Link to="/settings">Settings</Link></MenuItem>
                   <MenuItem> <Link to="/logout">Logout</Link></MenuItem>
                 </Menu>)}
               </div>

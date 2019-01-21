@@ -7,7 +7,7 @@ import {
     LOGIN,
     GET_FAVORITES_FAILURE,
     GET_FAVORITES_SUCCESS
-} from '../Actions/Types';
+} from '../Actions/types';
   
 const INITIAL_STATE = {
     breeds: [],

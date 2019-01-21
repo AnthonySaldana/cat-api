@@ -6,7 +6,7 @@ import {
     SET_API_KEY, END_SESSION, SEARCH_IMAGES, SEARCH_IMAGES_SUCCESS, SEARCH_IMAGES_FAILURE,
     CLEAR_BREEDS, VOTE_FAILURE, VOTE_SUCCESS, VOTE, LOGIN, GET_FAVORITES_SUCCESS,
     GET_FAVORITES_FAILURE, GET_FAVORITES
-} from './Types';
+} from './types';
 
 const baseurl = "https://api.thecatapi.com/v1/";
 

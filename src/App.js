@@ -31,7 +31,6 @@ class App extends Component {
               <PrivateRoute path="/breeds" component={Breeds} />
               <PrivateRoute path="/favorites" component={Favorites} />
               <PrivateRoute path="/images" component={Images} />
-              <PrivateRoute path="/settings" component={Settings} />
               <PrivateRoute path="/" component={Dashboard} />
             </Switch>
           </div>
