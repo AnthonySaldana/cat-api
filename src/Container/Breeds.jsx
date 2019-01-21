@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchBreeds, searchImages } from '../Actions/CatActions';
+import Button from '@material-ui/core/Button';
+import { fetchBreeds, clearBreeds, searchImages } from '../Actions/CatActions';
 import BreedsTable from '../Components/BreedsTable';
 
 const mapStateToProps = state => ({
@@ -8,6 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  clearBreeds: (params) => dispatch(clearBreeds(params)),
   getBreeds: (params) => dispatch(fetchBreeds(params)),
   getBreedImage: (params) => dispatch(searchImages(params)),
 });
@@ -24,14 +26,24 @@ class Breeds extends Component {
     getBreeds(params);
   }
 
+  handleClearBreeds = () => {
+    const { clearBreeds } = this.props;
+
+    clearBreeds();
+  }
+
   render() {
     const { breeds } = this.props;
-    console.log("breeds");
-    console.log(breeds);
 
     return (
       <div>
-        <p onClick={this.handleGetBreeds}>Get Breeds</p>
+          <h1>Cat Breeds</h1>
+        <Button variant="contained" color="primary" onClick={this.handleGetBreeds}>
+            Get Breeds
+        </Button>
+        <Button variant="contained" color="secondary" onClick={this.handleClearBreeds}>
+            Clear Breeds
+        </Button>
         <BreedsTable breeds={breeds} />
         { /*breeds.length > 0 ? "Breeds Available" : "Breeds Unavailable" */ }
       </div>

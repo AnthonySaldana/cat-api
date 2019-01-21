@@ -1,39 +1,74 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchBreeds, searchImages } from '../Actions/CatActions';
-import ImagesTable from '../Components/ImagesTable';
+import { searchImages, vote } from '../Actions/CatActions';
+import FeaturedImage from '../Components/FeaturedImage';
 
 const mapStateToProps = state => ({
-  breeds: state.cats.breeds
+  images: state.cats.images,
+  user: state.cats.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBreeds: (params) => dispatch(fetchBreeds(params)),
-  getBreedImage: (params) => dispatch(searchImages(params)),
+  getImages: (params) => dispatch(searchImages(params)),
+  vote: (params) => dispatch(vote(params)),
 });
 
 class Dashboard extends Component {
-  handleGetBreeds = () => {
-    const { getBreeds } = this.props;
+  componentDidMount(){
+    const { getImages } = this.props;
+    const params = {
+      limit: 1
+    };
+    getImages();
+  }
+
+  handleGetImages = () => {
+    const { getImages } = this.props;
     const params = {
       attach_breeds: 0,
       page: 1,
       limit: 20
     };
 
-    getBreeds(params);
+    getImages(params);
+  }
+
+  handleClearImages = () => {
+    const { clearImages } = this.props;
+
+    clearImages();
+  }
+
+  handleFavorited = () => {
+    const { vote, user, images } = this.props;
+    const featuredImage = images.length > 0 ? images[0] : {};
+    const params = {
+      "image_id": featuredImage ? featuredImage.id : 'asf2',
+      "sub_id": ( user ? user.username : '' ) + "-testing",
+      "value": 1
+    };
+    vote(params);
+  }
+
+  handleDisliked = () => {
+    const { vote, user, images } = this.props;
+    const featuredImage = images.length > 0 ? images[0] : {};
+    const params = {
+      "image_id": featuredImage ? featuredImage.id : 'asf2',
+      "sub_id": ( user ? user.username : '' ) + "-testing",
+      "value": 0
+    };
+    vote(params)
   }
 
   render() {
-    const { breeds } = this.props;
-    console.log("breeds");
-    console.log(breeds);
+    const { images } = this.props;
+    const featuredImage = images.length > 0 ? images[0] : {};
 
     return (
       <div>
-        <p onClick={this.handleGetBreeds}>Get Breeds</p>
-        <ImagesTable images={[]} />
-        { /*breeds.length > 0 ? "Breeds Available" : "Breeds Unavailable" */ }
+        <h1>Cats Rule</h1>
+        <FeaturedImage image={featuredImage} favorited={this.handleFavorited} disliked={this.handleDisliked} />
       </div>
     );
   }

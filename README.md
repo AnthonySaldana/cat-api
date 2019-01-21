@@ -1,5 +1,4 @@
-This project was setup with create-react-app
-Use these commands to spin up a local server to run this app
+Use these commands to spin up a local server and run this app
 
 ## Local Server
 

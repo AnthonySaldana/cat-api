@@ -5,9 +5,14 @@ import rootReducer from './Reducers'
 import configureStore from './Store/configureStore';
 import Breeds from './Container/Breeds';
 import Dashboard from './Container/Dashboard';
+import Favorites from './Container/Favorites';
+import Images from './Container/Images';
+import Login from './Container/Login';
+import Logout from './Container/Logout';
 import Settings from './Container/Settings';
 import Header from './Components/Header';
 import './App.css';
+import PrivateRoute from './PrivateRoute';
 
 // Store Redux State in Local Storage
 const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
@@ -21,10 +26,14 @@ class App extends Component {
           <div className="App">
             <Header />
             <Switch>
-              <Route exact path="/breeds" component={Breeds} />
-              <Route exact path="/settings" component={Settings} />
-              <Route exact path="/Dashboard" component={Dashboard} />
-              <Route exact path="/" component={Dashboard} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/logout" component={Logout} />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/breeds" component={Breeds} />
+              <PrivateRoute path="/favorites" component={Favorites} />
+              <PrivateRoute path="/images" component={Images} />
+              <PrivateRoute path="/settings" component={Settings} />
+              <PrivateRoute path="/" component={Dashboard} />
             </Switch>
           </div>
         </BrowserRouter>

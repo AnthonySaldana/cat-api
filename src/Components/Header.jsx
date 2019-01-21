@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
@@ -21,6 +21,15 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Link } from "react-router-dom";
+
+
+const mapStateToProps = state => ({
+  authenticated: state.cats.authenticated
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
 
 const drawerWidth = 240;
 
@@ -91,10 +100,6 @@ class Header extends React.Component {
     anchorEl: null,
   };
 
-  handleChange = event => {
-    this.setState({ auth: event.target.checked });
-  };
-
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -112,10 +117,11 @@ class Header extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { classes, authenticated } = this.props;
+    const { anchorEl } = this.state;
     const topOpen = Boolean(anchorEl);
     const { open } = this.state;
+    const auth = authenticated ? true : false;
 
     return (
       <div className={classes.root}>
@@ -131,7 +137,6 @@ class Header extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Cats Rule
             </Typography>
-            {auth && (
               <div>
                 <IconButton
                   aria-owns={topOpen ? 'menu-appbar' : undefined}
@@ -141,6 +146,7 @@ class Header extends React.Component {
                 >
                   <AccountCircle />
                 </IconButton>
+                {auth && (
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
@@ -156,9 +162,9 @@ class Header extends React.Component {
                   onClose={this.handleClose}
                 >
                   <MenuItem> <Link to="/settings">Settings</Link></MenuItem>
-                </Menu>
+                  <MenuItem> <Link to="/logout">Logout</Link></MenuItem>
+                </Menu>)}
               </div>
-            )}
           </Toolbar>
         </AppBar>
         <Drawer
@@ -171,14 +177,6 @@ class Header extends React.Component {
           onClose={this.handleDrawerClose}
         >
           <div className={classes.drawerHeader}>
-          <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
-                }
-                label={auth ? 'Logout' : 'Login'}
-              />
-            </FormGroup>
             <IconButton onClick={this.handleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
@@ -197,6 +195,18 @@ class Header extends React.Component {
                 <ListItemText primary={"Breeds"} />
             </ListItem>
           </Link >
+          <Link to="/images">
+            <ListItem button>
+                <ListItemIcon><InboxIcon /></ListItemIcon>
+                <ListItemText primary={"images"} />
+            </ListItem>
+          </Link >
+          <Link to="/favorites">
+            <ListItem button>
+                <ListItemIcon><InboxIcon /></ListItemIcon>
+                <ListItemText primary={"favorites"} />
+            </ListItem>
+          </Link >
           </List>
         </Drawer>
       </div>
@@ -204,8 +214,7 @@ class Header extends React.Component {
   }
 }
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Header));
